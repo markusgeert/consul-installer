@@ -1,5 +1,21 @@
 # CONSUL DEMOCRACY Installer ![Build status](https://github.com/consuldemocracy/installer/workflows/tests/badge.svg)
 
+Steps:
+
+Add ip to hosts file
+
+Change domain and ssh paths in group_vars/all
+
+Setup DNS to point the domain to the server ip (required for SSL to be setup)
+
+```
+ssh-keygen -y -f ~/.ssh/${private_key_name} > ~/.ssh/${private_key_name}.pub
+```
+
+```
+ansible-playbook -v consul.yml -i hosts --ask-become-pass
+```
+
 [CONSUL DEMOCRACY](https://github.com/consuldemocracy/consuldemocracy) installer for production environments
 
 Using [Ansible](http://docs.ansible.com/), it will install and configure the following:
@@ -259,7 +275,7 @@ If you are on Ubuntu and would like to use its default `sudo` group instead of `
 deploy_group: sudo
 ```
 
-There are many more variables available check them out [here]((https://github.com/consuldemocracy/installer/blob/2.0.1/group_vars/all))
+There are many more variables available check them out [here](<(https://github.com/consuldemocracy/installer/blob/2.0.1/group_vars/all)>)
 
 ## Other deployment options
 

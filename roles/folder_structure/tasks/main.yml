@@ -14,7 +14,7 @@
     first_release_dir: "{{ consul_dir }}/releases/{{ current_timestamp.stdout }}"
   block:
     - name: Git clone CONSUL DEMOCRACY
-      shell: "git clone --mirror https://github.com/consuldemocracy/consuldemocracy.git {{ consul_dir }}/repo"
+      shell: "git clone --mirror https://github.com/markusgeert/consul.git {{ consul_dir }}/repo"
 
     - name: Create first release folder
       file:
@@ -22,7 +22,7 @@
         state: directory
 
     - name: Create first release
-      shell: "git archive 2.0.1 | /usr/bin/env tar -x -f - -C {{ first_release_dir }}"
+      shell: "git archive HEAD | /usr/bin/env tar -x -f - -C {{ first_release_dir }}"
       args:
         chdir: "{{ consul_dir }}/repo"
 
@@ -73,7 +73,7 @@
 
 - name: Link shared public folders
   file:
-    state: "link"
     src: "{{ shared_dir }}/public/{{ item }}"
     dest: "{{ release_dir }}/public/{{ item }}"
+    state: "link"
   with_items: "{{ shared_public_dirs }}"

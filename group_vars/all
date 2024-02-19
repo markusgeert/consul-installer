@@ -1,11 +1,11 @@
 ---
 app_name: consul
-#domain: your_domain.com
+# domain: example.com
 
 server_hostname: "{{ domain | default(ansible_default_ipv4.address) }}"
 
 # Server Timezone
-timezone: Europe/Madrid
+timezone: Europe/Amsterdam
 
 # General settings
 env: production
@@ -25,8 +25,8 @@ shared_public_dirs:
   - "ckeditor_assets"
   - "machine_learning/data"
 
-ssh_public_key_path: "~/.ssh/id_rsa.pub"
-ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+ssh_public_key_path: "~/.ssh/raadleeuwarden_key.pub"
+ansible_ssh_private_key_file: "~/.ssh/raadleeuwarden_key"
 
 #Postgresql
 database_name: "{{app_name}}_{{ env }}"
@@ -35,15 +35,15 @@ database_password: "{{ deploy_user }}"
 database_hostname: "localhost"
 
 #SMTP
-smtp_address:        "smtp.example.com"
-smtp_port:           25
-smtp_domain:         "your_domain.com"
-smtp_user_name:      "username"
-smtp_password:       "password"
-smtp_authentication: "plain"
+# smtp_address:        "smtp.example.com"
+# smtp_port:           25
+# smtp_domain:         "your_domain.com"
+# smtp_user_name:      "username"
+# smtp_password:       "password"
+# smtp_authentication: "plain"
 
 #LetsEncrypt
-#letsencrypt_email: "your_email@example.com"
+letsencrypt_email: "info@indot.nl"
 
 # Errbit
 errbit: False

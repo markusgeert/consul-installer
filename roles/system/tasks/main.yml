@@ -24,18 +24,26 @@
 
 - name: Add Node key
   become: yes
-  apt_key:
+  get_url:
     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
+    dest: /etc/apt/trusted.gpg.d/nodesource.asc
+    mode: 0644
+    force: true
 
 - name: Get distribution codename
   shell: lsb_release -c --short
   register: distro_codename
 
+- name: Install gnupg2
+  become: true
+  apt:
+    name: gnupg2
+    state: latest
+
 - name: Add Node repository
   become: true
   apt_repository:
-    repo: "deb https://deb.nodesource.com/node_10.x {{ distro_codename.stdout }} main"
+    repo: "deb https://deb.nodesource.com/node_14.x {{ distro_codename.stdout }} main"
     state: present
 
 - name: Remove apache server
@@ -44,4 +52,4 @@
     name: apache2
     state: absent
 
-- include: tools.yml
+- include_tasks: tools.yml
