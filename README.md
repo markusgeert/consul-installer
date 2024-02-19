@@ -42,7 +42,6 @@ It will also create a `deploy` user to install these libraries
 A remote server with one of the supported distributions:
 
 - Ubuntu 20.04 x64
-- Debian Buster x64
 - Debian Bullseye x64
 
 Access to a remote server via public ssh key without password.
@@ -114,7 +113,7 @@ To restart the server and deploy new code to the server we have to configure Cap
 
 Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
-Setup locally for your [development environment](https://docs.consuldemocracy.org/docs/english-documentation/introduction/local_installation)
+Setup locally for your [development environment](https://docs.consuldemocracy.org/tech_docs/introduction-1/local_installation)
 
 Checkout the latest stable version:
 
