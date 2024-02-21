@@ -10,6 +10,9 @@ timezone: Europe/Amsterdam
 # Consul Democracy Timezone
 application_timezone: "{{ timezone }}"
 
+# Consul Democracy Timezone
+application_timezone: "{{ timezone }}"
+
 # General settings
 env: production
 deploy_user: deploy
