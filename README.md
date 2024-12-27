@@ -1,20 +1,53 @@
-# CONSUL DEMOCRACY Installer ![Build status](https://github.com/consuldemocracy/installer/workflows/tests/badge.svg)
+# CONSUL DEMOCRACY Installer ![Build status on Ubuntu](https://github.com/consuldemocracy/installer/workflows/ubuntu/badge.svg)
 
-Steps:
+## Installation
 
-Add ip to hosts file
+- Add ip and user to hosts file
 
-Change domain and ssh paths in group_vars/all
+- Set permissions on private key
+```
+chmod 602 ~/.ssh/${private_key_name}
+```
 
-Setup DNS to point the domain to the server ip (required for SSL to be setup)
+- Change domain and ssh paths in group_vars/all (also make sure that the public key exists:)
 
 ```
 ssh-keygen -y -f ~/.ssh/${private_key_name} > ~/.ssh/${private_key_name}.pub
 ```
 
+- Setup DNS to point the domain to the server ip (required for SSL to be setup) OR remove the domain key from the group_vars/all file to use the ip address instead of a domain
 ```
 ansible-playbook -v consul.yml -i hosts --ask-become-pass
 ```
+
+- Move backup to server:
+```
+rsync -P {backup_path.zip} deploy@${server_ip}:/home/deploy
+```
+
+- (when restoring a backup) restore the backup
+```
+# restore backup
+psql -U deploy -d consul-staging -f consul-2024-06-25.sql
+```
+
+## Common issues during installation: 
+
+### error while linking folders
+Solution: remove the consul folder and rerun playbook
+
+### error in 'Start DelayedJobs queue'
+TODO
+
+## Common tasks
+
+### Stop server
+TODO
+
+### Restart server
+TODO
+
+---
 
 [CONSUL DEMOCRACY](https://github.com/consuldemocracy/consuldemocracy) installer for production environments
 
@@ -43,6 +76,7 @@ A remote server with one of the supported distributions:
 
 - Ubuntu 20.04 x64
 - Ubuntu 22.04 x64
+- Ubuntu 24.04 x64
 - Debian Bullseye x64
 - Debian Bookworm x64
 
@@ -120,7 +154,7 @@ Setup locally for your [development environment](https://docs.consuldemocracy.or
 Checkout the latest stable version:
 
 ```
-git checkout origin/2.1.0 -b stable
+git checkout origin/2.2.2 -b stable
 ```
 
 Create your `deploy-secrets.yml`
@@ -223,13 +257,13 @@ Using https instead of http is an important security configuration. Before you b
 
 Once you have that setup we need to configure the Installer to use your domain in the application.
 
-First, uncomment the `domain` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/2.1.0/group_vars/all) and update it with your domain name:
+First, uncomment the `domain` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/2.2.2/group_vars/all) and update it with your domain name:
 
 ```
 #domain: "your_domain.com"
 ```
 
-Next, uncomment the `letsencrypt_email` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/2.1.0/group_vars/all) and update it with a valid email address:
+Next, uncomment the `letsencrypt_email` variable in the [configuration file](https://github.com/consuldemocracy/installer/blob/2.2.2/group_vars/all) and update it with a valid email address:
 
 ```
 #letsencrypt_email: "your_email@example.com"
@@ -276,7 +310,7 @@ If you are on Ubuntu and would like to use its default `sudo` group instead of `
 deploy_group: sudo
 ```
 
-There are many more variables available check them out [here](<(https://github.com/consuldemocracy/installer/blob/2.1.0/group_vars/all)>)
+There are many more variables available check them out [here]((https://github.com/consuldemocracy/installer/blob/2.2.2/group_vars/all))
 
 ## Other deployment options
 
@@ -306,7 +340,7 @@ If you do not have `root` access, you will need your system administrator to gra
 
 ## Using a different user than deploy
 
-Change the variable [deploy_user](https://github.com/consuldemocracy/installer/blob/2.1.0/group_vars/all#L12) to the username you would like to use.
+Change the variable [deploy_user](https://github.com/consuldemocracy/installer/blob/2.2.2/group_vars/all#L12) to the username you would like to use.
 
 ## Ansible Documentation
 
